@@ -92,7 +92,6 @@
                     <target>${java.version}</target>
                     <encoding>${project.build.sourceEncoding}</encoding>
                     <verbose>true</verbose>
-                    <fork>true</fork>
                 </configuration>
             </plugin>
             <!-- Source -->
