@@ -1,5 +1,8 @@
 package com.dakun.jianzhong.utils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -7,6 +10,10 @@ import java.security.NoSuchAlgorithmException;
  * Created by lichenghai on 2017/8/1 0001.
  */
 public class MD5 {
+
+    private static Logger logger = LoggerFactory.getLogger(MD5.class);
+
+    private static final int DEFAULT_ITERATIONS = 1;
 
     protected static char hexDigits[] = {'T','v','f','3','Y','1','P','m','s','4','c','D','g','5','9','h'};
     protected static MessageDigest messageDigest = null;
@@ -16,8 +23,7 @@ public class MD5 {
             // 拿到一个MD5转换器（如果想要SHA1参数换成”SHA1”）
             messageDigest = MessageDigest.getInstance("MD5");
         }catch (NoSuchAlgorithmException e) {
-            System.err.println(MD5.class.getName()+"初始化失败，MessageDigest不支持MD5Util.");
-            e.printStackTrace();
+            logger.error(MD5.class.getName()+"初始化失败，MessageDigest不支持MD5Util.", e);
         }
     }
 
@@ -56,6 +62,23 @@ public class MD5 {
         byte[] resultByteArray = messageDigest.digest();
         // 字符数组转换成字符串返回
         return bufferToHex(resultByteArray);
+    }
+
+    protected byte[] hash(byte[] bytes, byte[] salt, int hashIterations) {
+        MessageDigest digest = messageDigest;
+        if (salt != null) {
+            digest.reset();
+            digest.update(salt);
+        }
+        byte[] hashed = digest.digest(bytes);
+        // already hashed once above
+        int iterations = hashIterations - DEFAULT_ITERATIONS;
+        // iterate remaining number:
+        for (int i = 0; i < iterations; i++) {
+            digest.reset();
+            hashed = digest.digest(hashed);
+        }
+        return hashed;
     }
 
     /**
