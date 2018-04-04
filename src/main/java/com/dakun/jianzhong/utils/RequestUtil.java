@@ -8,6 +8,9 @@ import java.util.List;
  * Created by hexingfu on 2017/8/11.
  */
 public class RequestUtil {
+
+    public static final String DEFAULT_ADMIN_HEADER_NAME = "ADMIN-ID";
+
     /**
      * 根据请求头获取用户id
      * @param headers
@@ -26,5 +29,24 @@ public class RequestUtil {
             }
         }
         return accountId;
+    }
+
+    /**
+     * 获取当前登录后台管理用户, 从 http header 中获取
+     * @param headers
+     * @return
+     */
+    public static Integer getAdminId(HttpHeaders headers) {
+
+        if (headers == null) {
+            return null;
+        }
+
+        List<String> adminIds = headers.get(DEFAULT_ADMIN_HEADER_NAME);
+        if (adminIds == null || adminIds.isEmpty()) {
+            return null;
+        } else {
+            return Integer.valueOf(adminIds.get(0));
+        }
     }
 }
