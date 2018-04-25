@@ -11,6 +11,7 @@ public class ServerUtils {
     public static final String BAIDU_LBS_POI_CREATE = BAIDU_LBS_POI_HOST + "create";
     public static final String BAIDU_LBS_POI_DETAIL = BAIDU_LBS_POI_HOST + "detail";
     public static final String BAIDU_LBS_POI_LIST = BAIDU_LBS_POI_HOST + "list";
+    public static final String BAIDU_LBS_TIMEZONE = "http://api.map.baidu.com/timezone/v1";
     public static final String BAIDU_AK = "8cyBzD0qPEPHZKYuXkq01wvKmmXIioTo";
     public static final String BAIDU_GEOTABLE = "175728";
     public static final String COORD_TYPE = "1";
